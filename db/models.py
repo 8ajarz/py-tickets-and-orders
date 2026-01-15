@@ -75,10 +75,10 @@ class Order(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="Users made order")
+        related_name="orders")
 
     def __str__(self) -> str:
-        return str(self.created_at)
+        return f"Order: {self.created_at}"
 
     class Meta:
         ordering = ["-created_at"]
@@ -88,10 +88,10 @@ class Ticket(models.Model):
     movie_session = models.ForeignKey(
         MovieSession,
         on_delete=models.CASCADE,
-        related_name="ticket's movie_session")
+        related_name="tickets")
     order = models.ForeignKey(Order,
                               on_delete=models.CASCADE,
-                              related_name="ticket's order")
+                              related_name="tickets")
     row = models.IntegerField()
     seat = models.IntegerField()
 
@@ -115,7 +115,7 @@ class Ticket(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return (f"{self.movie_session.movie} "
+        return (f"Ticket: {self.movie_session.movie} "
                 f"{self.movie_session.show_time} "
                 f"(row: {self.row}, seat: {self.seat})")
 
